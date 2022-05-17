@@ -1,0 +1,24 @@
+{
+  "name": "usertask",
+  "version": "1.0.0",
+  "description": "users with tasks",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rubik009/userTask.git"
+  },
+  "keywords": [
+    "mongoDB",
+    "jwt",
+    "js"
+  ],
+  "author": "Roman Rubinshteyn",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rubik009/userTask/issues"
+  },
+  "homepage": "https://github.com/Rubik009/userTask#readme"
+}
