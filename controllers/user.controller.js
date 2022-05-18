@@ -61,8 +61,8 @@ class UsersControllers {
         const users = User.find();
         return users;
     }
-    async getOneUser(username) {
-        const user = await User.findOne({ username });
+    async getOneUser(id) {
+        const user = await User.findOne({ _id : id });
         return user;
     }
     async updateUser(id, role) {

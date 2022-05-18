@@ -75,15 +75,13 @@ router.post("/register", [
  *          schema:
  *            $ref: '#/definitions/User'
  *      responses:
- *        200:
- *          description: Successful response
- *          schema:
- *              title: Return String
- *              type: string
- *              example: "succesfully"
- *        cookies:
- *              schema:
- *                type: string
+ *        '200':
+ *          description: >
+ *             Successful response
+ *          headers:
+ *             Set-Cookie:
+ *               schema:
+ *                 type: string
  * definitions:
  *   User:
  *     description: User object
@@ -166,12 +164,7 @@ router.post('/logout', async (req, res) => {
  *  get:
  *      description: Use to get tokens for access
  *      tags:
- *        - Users
- *      parameters:
- *      - name : authorization
- *        in : header
- *        type : string
- *        required : true 
+ *        - Users 
  *      responses:
  *          '200':
  *              description: A succesful response
