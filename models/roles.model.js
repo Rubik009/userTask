@@ -5,7 +5,7 @@ const RolesSchema = mongoose.Schema({
         type: String,
         require : true
     },
-    username: {
+    password: {
         type: String,
         ref: 'user'
     },

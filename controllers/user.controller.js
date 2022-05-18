@@ -21,18 +21,17 @@ class UsersControllers {
             return `User with username - ${username} already exist`;
         }
         const hashPassword = await bcrypt.hash(password, saltRound);
-        const userRole = new Role({ role, username });
+        const userRole = new Role({ role, password : hashPassword });
         await userRole.save();
         const user = new User({ username, password: hashPassword, role: userRole.role });
-        console.log(user._id)
         await user.save();
         const payload = {
             id: user._id,
             user: user.username,
             role: user.role,
         }
-        const tokens = await TokenServices.generateTokens(payload);
-        await TokenServices.saveToken(user_id, refreshToken);
+        const tokens = TokenServices.generateTokens(payload);
+        await TokenServices.saveToken(user._id, tokens.refreshToken);
         return tokens;
     }
     async loginUser(body) {

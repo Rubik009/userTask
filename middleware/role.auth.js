@@ -12,7 +12,6 @@ function roleAuthenticatToken(roles) {
             jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
                 if (err) throw new Error('invalid token');
                 const role = user.role;
-                console.log(user.role)
                 if (role !== roles) {
                     return res.status(403).json({message : 'You dont have an access'});
                 }

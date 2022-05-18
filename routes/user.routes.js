@@ -81,6 +81,9 @@ router.post("/register", [
  *              title: Return String
  *              type: string
  *              example: "succesfully"
+ *        cookies:
+ *              schema:
+ *                type: string
  * definitions:
  *   User:
  *     description: User object
@@ -108,10 +111,47 @@ router.post('/login', async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ *  /api/user/logout:
+ *    post:
+ *      description: 
+ *          Logout
+ *      tags:
+ *          - Users
+ *      parameters:
+ *        - name: user 
+ *          in: body
+ *          description: user object
+ *          required: true
+ *          schema:
+ *            $ref: '#/definitions/User'
+ *      responses:
+ *        200:
+ *          description: Successful response
+ *          schema:
+ *              title: Return String
+ *              type: string
+ *              example: "succesfully"
+ * definitions:
+ *   User:
+ *     description: User object
+ *     properties:
+ *       username:
+ *         type: string
+ *         example: roman
+ *         description: user logout
+ *       password:
+ *         type: string
+ *         example: 'roman'
+ *         description: user password 
+ *     required:
+ *      - username
+ *      - password
+ */
 router.post('/logout', async (req, res) => {
     try {
         const refreshToken = req.cookies.refreshToken;
-        //console.log(req.cookies.refreshToken)
         const token = await UsersControllers.logout(refreshToken);
         res.clearCookie('refreshToken', token.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
         res.status(200).json({ message: token });
@@ -120,10 +160,26 @@ router.post('/logout', async (req, res) => {
     }
 })
 
+/**
+ * @swagger
+ * /api/user/refresh:
+ *  get:
+ *      description: Use to get tokens for access
+ *      tags:
+ *        - Users
+ *      parameters:
+ *      - name : authorization
+ *        in : header
+ *        type : string
+ *        required : true 
+ *      responses:
+ *          '200':
+ *              description: A succesful response
+ */
 router.get('/refresh', async (req, res) => {
     try {
         const refreshToken = req.cookies.refreshToken;
-        const token = TokenServices.refreshToken(refreshToken);
+        const token = await TokenServices.refreshToken(refreshToken);
         res.cookie('refreshToken', token.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true })
         res.status(200).json({ token });
     } catch (err) {
@@ -147,7 +203,7 @@ router.get('/refresh', async (req, res) => {
  *          '200':
  *              description: A succesful response
  */
-router.get("/", roleAuthenticatToken('admin'), async (req, res) => {
+router.get("/users", roleAuthenticatToken('admin'), async (req, res) => {
     try {
         const users = await UsersControllers.getUsers();
         res.status(200).json({ message: "List of users", users });
